@@ -4,7 +4,7 @@ const User = require('../models/UserModel'); // Importing the User model
 const user_router = express.Router();
 
 const PAGE_LIMIT = 20;
-const PAGE = 3;
+const PAGE = 0;
 
 // Route to save a User
 user_router.post('/', async (request, response) => {
@@ -58,6 +58,30 @@ user_router.get('/', async (request, response) => {
     }
 });
 
+
+user_router.get('/:page', async (request, response) => {
+    try {
+        // Extracting the page parameter from the request URL
+        const requestedPage = parseInt(request.params.page) || PAGE;
+
+        // Calculating the skip value based on the requested page and page limit
+        const skip = (requestedPage - 1) * PAGE_LIMIT;
+
+        // Fetching users from the database with pagination
+        const users = await User.find({}, null, { skip, limit: PAGE_LIMIT });
+
+        // Sending a 200 OK response with the count of users and the user data as JSON
+        return response.status(200).json({
+            count: users.length,
+            data: users,
+        });
+    } catch (error) {
+        console.log(error); // Logging any errors to the console
+        response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
+    }
+});
+
+
 // Route to Get 1 User from the database by ID
 user_router.get('/:id', async (request, response) => {
     try {
@@ -73,6 +97,8 @@ user_router.get('/:id', async (request, response) => {
         response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
     }
 });
+
+
 
 // Route to update a User
 user_router.put('/:id', async (request, response) => {
