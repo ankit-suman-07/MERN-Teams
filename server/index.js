@@ -2,7 +2,7 @@
 const express = require('express'); // Express framework for handling HTTP requests
 const mongoose = require('mongoose'); // MongoDB ODM for interacting with MongoDB database
 require('dotenv').config(); // Dotenv for loading environment variables from a .env file
-const userRoutes = require('./routes/userRoutes'); // Importing user routes from userRoutes file
+const userRoutes = require('./routes/teamRoutes'); // Importing user routes from userRoutes file
 const teamRoutes = require('./routes/teamRoutes');
 const cors = require('cors'); // CORS middleware for enabling cross-origin requests
 
