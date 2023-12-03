@@ -59,68 +59,6 @@ user_router.get('/', async (request, response) => {
 });
 
 
-// user_router.get('/:page', async (request, response) => {
-//     try {
-//         // Extracting the page parameter from the request URL
-//         const requestedPage = parseInt(request.params.page) || PAGE;
-
-//         // Calculating the skip value based on the requested page and page limit
-//         const skip = (requestedPage - 1) * PAGE_LIMIT;
-
-//         // Fetching users from the database with pagination
-//         const users = await User.find({}, null, { skip, limit: PAGE_LIMIT });
-
-//         // Sending a 200 OK response with the count of users and the user data as JSON
-//         return response.status(200).json({
-//             count: users.length,
-//             data: users,
-//         });
-//     } catch (error) {
-//         console.log(error); // Logging any errors to the console
-//         response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
-//     }
-// });
-
-
-// Route to Get Users from the database with pagination and search
-
-// user_router.get('/:page', async (request, response) => {
-//     try {
-//         const requestedPage = parseInt(request.params.page) || PAGE;
-//         const skip = (requestedPage - 1) * PAGE_LIMIT;
-
-//         // Extracting the search term from the query parameters
-//         // const searchTerm = request.query.searchTerm || '';
-//         const searchTerm = "llo";
-
-//         // Creating a regular expression for case-insensitive search
-//         const searchRegex = new RegExp(searchTerm, 'i');
-
-
-
-//         // Fetching users from the database with pagination and search
-//         const users = await User.find({
-//             $or: [
-//                 {
-//                     $or: [
-//                         { first_name: searchRegex },
-//                         { last_name: searchRegex },
-//                     ],
-//                 },
-//                 // Add more fields as needed for the search
-//             ],
-//         }, null, { skip, limit: PAGE_LIMIT });
-
-//         // Sending a 200 OK response with the count of users and the user data as JSON
-//         return response.status(200).json({
-//             count: users.length,
-//             data: users,
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         response.status(500).send({ message: error.message });
-//     }
-// });
 
 user_router.get('/show/:page', async (request, response) => {
     try {

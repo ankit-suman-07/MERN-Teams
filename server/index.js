@@ -20,7 +20,7 @@ mongoose.connect(MONGO_DB_URI, {
 
 // Using userRoutes and gameRoutes for specific routes
 app.use('/api/users', userRoutes); // Routes related to users
-app.use('/api/team', teamRoutes); // Routes related to users
+app.use('/api/teams', teamRoutes); // Routes related to users
 
 // Route handler for the root endpoint, sending a simple response indicating the server is working
 app.get('/', (req, res) => {
@@ -33,8 +33,8 @@ app.get('/users', (req, res) => {
 });
 
 // Route handler for the '/games' endpoint, sending a response indicating games are displayed here
-app.get('/games', (req, res) => {
-    res.send("Games Displayed here");
+app.get('/teams', (req, res) => {
+    res.send("Teams Displayed here");
 });
 
 // Starting the server and listening on the specified port

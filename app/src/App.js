@@ -6,6 +6,7 @@ import './App.css';
 import Home from './pages/home/Home';
 import Users from './pages/users/Users';
 import Teams from './pages/teams/Teams';
+import CreateTeam from "./pages/teams/create-team/CreateTeam";
 
 import ShowUser from "./pages/users/show-user/ShowUser";
 import CreateUser from "./pages/users/create-user/CreateUser";
@@ -22,7 +23,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/users" element={<Users />} />
           <Route path="/teams" element={<Teams />} />
-          <Route path="/search" element={<Teams />} />
+          <Route path="/teams/create" element={<CreateTeam />} />
           <Route path='/user/show/:id' element={<ShowUser />} />
           <Route path='/user/create' element={<CreateUser />} />
           <Route path='/user/edit/:id' element={<EditUser />} />
