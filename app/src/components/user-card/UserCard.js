@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "./UserCard.css";
 
 import DelIcon from "../../assets/delete.png";
@@ -8,12 +9,17 @@ const UserCard = ({ user, btn = false }) => {
     return (
         <div className='user-card' >
             <div className='user-card-top' >
-                <img src={EditIcon} alt='edit-icon' />
+                <Link to={`/user/edit/${user._id}`} className='link' >
+                    <img src={EditIcon} alt='edit-icon' />
+                </Link>
+
                 {
                     btn && <button>Add To Team</button>
                 }
+                <Link to={`/user/delete/${user._id}`} className='link' >
+                    <img src={DelIcon} alt='del-icon' />
+                </Link>
 
-                <img src={DelIcon} alt='del-icon' />
             </div>
 
             <div className='user-card-avatar' >

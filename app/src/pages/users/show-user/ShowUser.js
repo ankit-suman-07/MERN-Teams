@@ -78,6 +78,7 @@ const ShowUser = () => {
     return (
         <div>
             <Navbar />
+
             <div className='main-area'>
                 <input
                     type='text'

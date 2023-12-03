@@ -1,6 +1,6 @@
 .user-card {
     border: 1px solid black;
-    height: 300px;
+    min-height: 250px;
 }
 
 .user-card-top {
@@ -11,10 +11,26 @@
     align-items: center;
 }
 
-.user-card-top img {
+.link {
+    height: 30px;
+    width: 30px;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-    height: 70%;
-    margin: 5px;
+.link img {
+    border: 2px solid #ffff;
+    border-radius: 50%;
+    height: 22px;
+    transition: all 0.3s;
+}
+
+.link img:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    border: 2px solid #222222;
 }
 
 .user-card-detail-main {
