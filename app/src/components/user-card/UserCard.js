@@ -9,14 +9,14 @@ const UserCard = ({ user, btn = false }) => {
     return (
         <div className='user-card' >
             <div className='user-card-top' >
-                <Link to={`/user/edit/${user._id}`} className='link' >
+                <Link to={`/user/edit/${user._id}`} className='user-link' >
                     <img src={EditIcon} alt='edit-icon' />
                 </Link>
 
                 {
                     btn && <button className='link-view' >Add To Team</button>
                 }
-                <Link to={`/user/delete/${user._id}`} className='link' >
+                <Link to={`/user/delete/${user._id}`} className='user-link' >
                     <img src={DelIcon} alt='del-icon' />
                 </Link>
 
