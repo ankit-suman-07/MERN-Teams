@@ -4,7 +4,7 @@ const User = require('../models/UserModel'); // Importing the User model
 const user_router = express.Router();
 
 const PAGE_LIMIT = 20;
-const PAGE = 0;
+const PAGE = 3;
 
 // Route to save a User
 user_router.post('/', async (request, response) => {
@@ -45,7 +45,7 @@ user_router.post('/', async (request, response) => {
 user_router.get('/', async (request, response) => {
     try {
         // Fetching all user entries from the database
-        const users = await User.find({}, null, { skip: PAGE * PAGE_LIMIT, limit: PAGE_LIMIT });
+        const users = await User.find({});
 
         // Sending a 200 OK response with the count of users and the user data as JSON
         return response.status(200).json({
@@ -58,17 +58,99 @@ user_router.get('/', async (request, response) => {
     }
 });
 
+
+// user_router.get('/:page', async (request, response) => {
+//     try {
+//         // Extracting the page parameter from the request URL
+//         const requestedPage = parseInt(request.params.page) || PAGE;
+
+//         // Calculating the skip value based on the requested page and page limit
+//         const skip = (requestedPage - 1) * PAGE_LIMIT;
+
+//         // Fetching users from the database with pagination
+//         const users = await User.find({}, null, { skip, limit: PAGE_LIMIT });
+
+//         // Sending a 200 OK response with the count of users and the user data as JSON
+//         return response.status(200).json({
+//             count: users.length,
+//             data: users,
+//         });
+//     } catch (error) {
+//         console.log(error); // Logging any errors to the console
+//         response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
+//     }
+// });
+
+
+// Route to Get Users from the database with pagination and search
+
+// user_router.get('/:page', async (request, response) => {
+//     try {
+//         const requestedPage = parseInt(request.params.page) || PAGE;
+//         const skip = (requestedPage - 1) * PAGE_LIMIT;
+
+//         // Extracting the search term from the query parameters
+//         // const searchTerm = request.query.searchTerm || '';
+//         const searchTerm = "llo";
+
+//         // Creating a regular expression for case-insensitive search
+//         const searchRegex = new RegExp(searchTerm, 'i');
+
+
+
+//         // Fetching users from the database with pagination and search
+//         const users = await User.find({
+//             $or: [
+//                 {
+//                     $or: [
+//                         { first_name: searchRegex },
+//                         { last_name: searchRegex },
+//                     ],
+//                 },
+//                 // Add more fields as needed for the search
+//             ],
+//         }, null, { skip, limit: PAGE_LIMIT });
+
+//         // Sending a 200 OK response with the count of users and the user data as JSON
+//         return response.status(200).json({
+//             count: users.length,
+//             data: users,
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         response.status(500).send({ message: error.message });
+//     }
+// });
 
 user_router.get('/:page', async (request, response) => {
     try {
-        // Extracting the page parameter from the request URL
         const requestedPage = parseInt(request.params.page) || PAGE;
-
-        // Calculating the skip value based on the requested page and page limit
         const skip = (requestedPage - 1) * PAGE_LIMIT;
 
-        // Fetching users from the database with pagination
-        const users = await User.find({}, null, { skip, limit: PAGE_LIMIT });
+        // Extracting the search term, domain array, gender, and availability from the query parameters
+        const searchTerm = request.query.searchTerm || '';
+        //const domainArray = request.query.domainArray ? request.query.domainArray.split(',') : [];
+        //const gender = request.query.gender || ''; // Add a default value if needed
+        // const available = request.query.available === 'true'; // Convert string to boolean
+
+
+        // Creating a regular expression for case-insensitive search
+        const searchRegex = new RegExp(searchTerm, 'i');
+
+        // Fetching users from the database with pagination, search, domain filter, gender, and availability
+        const users = await User.find({
+            $and: [
+                {
+                    $or: [
+                        { first_name: { $regex: searchRegex } },
+                        { last_name: { $regex: searchRegex } },
+                    ],
+                },
+        // Additional conditions for the domain filter
+        // { domain: { $in: domainArray } },
+
+            ],
+        }, null, { skip, limit: PAGE_LIMIT });
 
         // Sending a 200 OK response with the count of users and the user data as JSON
         return response.status(200).json({
@@ -76,13 +158,14 @@ user_router.get('/:page', async (request, response) => {
             data: users,
         });
     } catch (error) {
-        console.log(error); // Logging any errors to the console
-        response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
+        console.log(error);
+        response.status(500).send({ message: error.message });
     }
 });
 
 
-// Route to Get 1 User from the database by ID
+
+
 user_router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
@@ -90,13 +173,19 @@ user_router.get('/:id', async (request, response) => {
         // Fetching a user entry by its ID from the database
         const user = await User.findById(id);
 
+        // Check if user is found
+        if (!user) {
+            return response.status(404).json({ message: 'User not found' });
+        }
+
         // Sending a 200 OK response with the user data as JSON
         return response.status(200).json(user);
     } catch (error) {
-        console.log(error); // Logging any errors to the console
+        console.error(error); // Log the error to the console for debugging
         response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
     }
 });
+
 
 
 
