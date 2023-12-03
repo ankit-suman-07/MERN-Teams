@@ -14,7 +14,7 @@ const UserCard = ({ user, btn = false }) => {
                 </Link>
 
                 {
-                    btn && <button>Add To Team</button>
+                    btn && <button className='link-view' >Add To Team</button>
                 }
                 <Link to={`/user/delete/${user._id}`} className='link' >
                     <img src={DelIcon} alt='del-icon' />
@@ -40,8 +40,12 @@ const UserCard = ({ user, btn = false }) => {
                         <span className='detail-label' >Availability : </span><span>{user.available ? "Available" : "Not Available"}</span>
                     </div>
                 </div>
+
                 <div className='user-card-email' >
                     {user.email}
+                    <Link to={`/user/show/${user._id}`} className='link-view' >
+                        View User
+                    </Link>
                 </div>
             </div>
         </div>
