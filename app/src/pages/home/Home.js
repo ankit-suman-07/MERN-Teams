@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/navbar/Navbar';
+import UserCard from '../../components/user-card/UserCard';
+
+import "./Home.css";
 
 const Home = () => {
     const [users, setUsers] = useState([]);
@@ -19,9 +22,8 @@ const Home = () => {
 
     useEffect(() => {
         const fetchUsers = async () => {
-            console.log("search item : ", searchTerm);
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${page}?searchTerm=${searchTerm}`);
+                const response = await fetch(`http://localhost:5000/api/users/show/${page}?searchTerm=${searchTerm}`);
                 const users = await response.json();
                 console.log(users);
                 setUsers(users.data);
@@ -38,19 +40,20 @@ const Home = () => {
     return (
         <div>
             <Navbar />
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search by name..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+            <input
+                type="text"
+                placeholder="Search by name..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className='user-view'>
+
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
                     users.map((user) => (
                         <div key={user.id}>
-                            {user.first_name} - {user.last_name}
+                            <UserCard user={user} />
                         </div>
                     ))
                 )}

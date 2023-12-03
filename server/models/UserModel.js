@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema(
             required: true,
         },
         available: {
-            type: String,
+            type: Boolean,
             required: true,
         }
     },

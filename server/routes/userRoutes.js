@@ -122,7 +122,7 @@ user_router.get('/', async (request, response) => {
 //     }
 // });
 
-user_router.get('/:page', async (request, response) => {
+user_router.get('/show/:page', async (request, response) => {
     try {
         const requestedPage = parseInt(request.params.page) || PAGE;
         const skip = (requestedPage - 1) * PAGE_LIMIT;
@@ -166,23 +166,31 @@ user_router.get('/:page', async (request, response) => {
 
 
 
+// Route to Get a User from the database by ID
 user_router.get('/:id', async (request, response) => {
     try {
         const { id } = request.params;
+
+        console.log('Fetching user with ID:', id);
 
         // Fetching a user entry by its ID from the database
         const user = await User.findById(id);
 
         // Check if user is found
         if (!user) {
+            console.log('User not found');
             return response.status(404).json({ message: 'User not found' });
         }
 
         // Sending a 200 OK response with the user data as JSON
-        return response.status(200).json(user);
+        console.log('User found:', user);
+        return response.status(200).json({
+            count: user.length,
+            data: user,
+        });
     } catch (error) {
-        console.error(error); // Log the error to the console for debugging
-        response.status(500).send({ message: error.message }); // Sending a 500 Internal Server Error response
+        console.error(error);
+        response.status(500).send({ message: error.message });
     }
 });
 

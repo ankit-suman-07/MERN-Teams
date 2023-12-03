@@ -3,7 +3,6 @@ const express = require('express'); // Express framework for handling HTTP reque
 const mongoose = require('mongoose'); // MongoDB ODM for interacting with MongoDB database
 require('dotenv').config(); // Dotenv for loading environment variables from a .env file
 const userRoutes = require('./routes/userRoutes'); // Importing user routes from userRoutes file
-const gameRoutes = require('./routes/gameRoutes'); // Importing game routes from gameRoutes file
 const teamRoutes = require('./routes/teamRoutes');
 const cors = require('cors'); // CORS middleware for enabling cross-origin requests
 
@@ -22,7 +21,6 @@ mongoose.connect(MONGO_DB_URI, {
 // Using userRoutes and gameRoutes for specific routes
 app.use('/api/users', userRoutes); // Routes related to users
 app.use('/api/team', teamRoutes); // Routes related to users
-app.use('/games', gameRoutes); // Routes related to games
 
 // Route handler for the root endpoint, sending a simple response indicating the server is working
 app.get('/', (req, res) => {
